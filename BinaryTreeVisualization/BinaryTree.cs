@@ -6,7 +6,7 @@ namespace BinaryTreeVisualization;
 
 public class BinaryTree
 {
-    private Node root;
+    public Node root;
     public void Insert(int value)
     {
         root = InsertRec(root, value);
@@ -67,5 +67,9 @@ public class BinaryTree
             Console.WriteLine(root.Value + " ");
             PrintTreeRec(root.Right);
         }
+    }
+    public void Clear()
+    {
+        root = null;
     }
 }

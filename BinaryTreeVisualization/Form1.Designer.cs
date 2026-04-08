@@ -32,6 +32,7 @@
             buttonDelete = new Button();
             buttonPrint = new Button();
             groupBox1 = new GroupBox();
+            maskedTextBoxInsert = new MaskedTextBox();
             maskedTextBoxDelete = new MaskedTextBox();
             pictureBoxTree = new PictureBox();
             groupBox1.SuspendLayout();
@@ -40,7 +41,7 @@
             // 
             // buttonInsert
             // 
-            buttonInsert.Location = new Point(51, 120);
+            buttonInsert.Location = new Point(51, 95);
             buttonInsert.Name = "buttonInsert";
             buttonInsert.Size = new Size(90, 29);
             buttonInsert.TabIndex = 1;
@@ -68,6 +69,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(maskedTextBoxInsert);
             groupBox1.Controls.Add(maskedTextBoxDelete);
             groupBox1.Controls.Add(buttonPrint);
             groupBox1.Controls.Add(buttonInsert);
@@ -78,6 +80,13 @@
             groupBox1.TabIndex = 5;
             groupBox1.TabStop = false;
             groupBox1.Text = "groupBox1";
+            // 
+            // maskedTextBoxInsert
+            // 
+            maskedTextBoxInsert.Location = new Point(36, 141);
+            maskedTextBoxInsert.Name = "maskedTextBoxInsert";
+            maskedTextBoxInsert.Size = new Size(125, 27);
+            maskedTextBoxInsert.TabIndex = 10;
             // 
             // maskedTextBoxDelete
             // 
@@ -118,5 +127,6 @@
         private GroupBox groupBox1;
         private MaskedTextBox maskedTextBoxDelete;
         private PictureBox pictureBoxTree;
+        private MaskedTextBox maskedTextBoxInsert;
     }
 }

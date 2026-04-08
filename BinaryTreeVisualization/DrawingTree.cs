@@ -9,29 +9,49 @@ public class DrawingTree
 {
     private int? _PosX;
     private int? _PosY;
+    private int _count;
     public DrawingTree()
     {
         _PosX = null;
         _PosY = null;
     }
-    public void SetPosition(int x, int y)
+    public void SetPosition(int x, int y, int count)
     {
         _PosX = x;
         _PosY = y;
+        _count = count;
     }
-    
-    public void DrawTree(Graphics g)
+    public void DrawInsert(Graphics g, Node root, int x, int y, int offset)
     {
         Random rnd = new Random();
         Pen blackPen = new Pen(Color.Black);
-        string text = rnd.Next(0, 10).ToString();
-        Font drawFont = new Font("Arial", 24, FontStyle.Bold);
+        if (root == null)
+        {
+            return;
+        }
+        if (root.Left != null)
+        {
+            g.DrawLine(blackPen, x, y+15, x - offset, y + 35);
+        }
+        if (root.Right != null)
+        {
+            g.DrawLine(blackPen, x, y+15, x + offset, y + 35);
+        }
+        Rectangle rect = new Rectangle(x-15, y-15, 30, 30);
+        g.DrawEllipse(blackPen, x - 15, y - 15, 30, 30);
+        string text = root.Value.ToString();
         SolidBrush drawBrush = new SolidBrush(Color.Black);
+        Font drawFont = new Font("Arial", 12, FontStyle.Bold);
         StringFormat sf = new StringFormat();
         sf.Alignment = StringAlignment.Center;
         sf.LineAlignment = StringAlignment.Center;
-        Rectangle rect = new Rectangle(50, 50, 100, 100);
-        g.DrawRectangle(blackPen, rect);
         g.DrawString(text, drawFont, drawBrush, rect, sf);
+        DrawInsert(g, root.Left, x - offset, y+50, offset);
+        DrawInsert(g, root.Right, x+offset, y+50, offset);
+    }
+    public void DrawTree(Graphics g, Node root)
+    {
+        Random rnd = new Random();
+        DrawInsert(g, root, _PosX.Value, _PosY.Value,40);  
     }
 }

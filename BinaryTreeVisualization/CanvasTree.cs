@@ -19,28 +19,11 @@ public class CanvasTree
         canvasWidth = width;
         canvasHeight = height;
     }
-    //public void InsertObject(DrawingTree tree)
-    //{
-    //    _drawingTree = tree;
-    //}
-    //public void SetPosition(int x, int y)
-    //{
-    //    if (x > canvasWidth)
-    //    {
-    //        x = canvasWidth.Value;
-
-    //    }
-    //    if (y > canvasHeight)
-    //    {
-    //        y = canvasHeight.Value;
-    //    }
-    //    _drawingTree.SetPosition(x, y);
-    //}
-    public Bitmap? DrawCanvas()
+    public Bitmap? DrawCanvas(Node root)
     {
         Bitmap bmp = new(canvasWidth.Value, canvasHeight.Value);
         Graphics g = Graphics.FromImage(bmp);
-        _drawingTree?.DrawTree(g);
+        _drawingTree?.DrawTree(g, root);
         return bmp;
     }
 
