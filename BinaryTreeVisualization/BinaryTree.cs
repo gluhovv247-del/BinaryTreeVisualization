@@ -44,6 +44,24 @@ public class BinaryTree
         }
         return root;
     }
+    public void Search(int value)
+    {
+        root = SearchRec(root, value);
+    }
+    public Node SearchRec(Node root, int value)
+    {
+        if(root == null || value == root.Value)
+        {
+            return root;
+        }
+      
+        if(value < root.Value)
+        {
+            return SearchRec(root.Left, value);
+        }
+        return SearchRec(root.Right, value);
+        
+    }
     private int MinValue(Node node)
     {
         int min = node.Value;
