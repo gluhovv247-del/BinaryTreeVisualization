@@ -7,19 +7,37 @@ namespace BinaryTreeVisualization;
 
 public class DrawingTree
 {
-    private int? _PosX;
-    private int? _PosY;
-    private int _count;
+    protected int? _PosX;
+    protected int? _PosY;
     public DrawingTree()
     {
         _PosX = null;
         _PosY = null;
     }
-    public void SetPosition(int x, int y, int count)
+    public void SetPosition(int x, int y)
     {
         _PosX = x;
         _PosY = y;
-        _count = count;
+    }
+    public void DrawPrint(Graphics g, Node root, int x, int y)
+    {
+        if (root == null)
+        {
+            return;
+        }
+        Pen blackPen = new Pen(Color.Black);
+        Rectangle rect = new Rectangle(x, y + 200, 30, 30);
+        string text = root.Value.ToString();
+        SolidBrush drawBrush = new SolidBrush(Color.Black);
+        Font drawFont = new Font("Arial", 12, FontStyle.Bold);
+        StringFormat sf = new StringFormat();
+        sf.Alignment = StringAlignment.Center;
+        sf.LineAlignment = StringAlignment.Center;
+
+        DrawPrint(g, root.Left, x + 30, y);
+        DrawPrint(g, root.Right, x + 30, y);
+        g.DrawEllipse(blackPen, x, y + 200, 30, 30);
+        g.DrawString(text, drawFont, drawBrush, rect, sf);
     }
     public void DrawInsert(Graphics g, Node root, int x, int y, int offset)
     {
@@ -49,9 +67,18 @@ public class DrawingTree
         DrawInsert(g, root.Left, x - offset, y+50, offset);
         DrawInsert(g, root.Right, x+offset, y+50, offset);
     }
-    public void DrawTree(Graphics g, Node root)
+    public void DrawTree(Graphics g, Node root, EnumAct act)
     {
-        Random rnd = new Random();
-        DrawInsert(g, root, _PosX.Value, _PosY.Value,40);  
+        switch (act)
+        {
+            case EnumAct.Insert:
+                DrawInsert(g, root, _PosX.Value, _PosY.Value, 40);
+                break;
+            case EnumAct.Print:
+                DrawInsert(g, root, _PosX.Value, _PosY.Value, 40);
+                DrawPrint(g, root, _PosX.Value, _PosY.Value);
+                break;
+        }
+        
     }
 }

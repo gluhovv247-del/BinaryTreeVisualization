@@ -67,6 +67,7 @@
             buttonPrint.TabIndex = 3;
             buttonPrint.Text = "Вывести";
             buttonPrint.UseVisualStyleBackColor = true;
+            buttonPrint.Click += buttonPrint_Click;
             // 
             // groupBox1
             // 
@@ -80,7 +81,7 @@
             groupBox1.Size = new Size(186, 451);
             groupBox1.TabIndex = 5;
             groupBox1.TabStop = false;
-            groupBox1.Text = "groupBox1";
+            groupBox1.Text = "Инструменты";
             // 
             // maskedTextBoxInsert
             // 

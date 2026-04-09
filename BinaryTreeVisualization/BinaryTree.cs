@@ -82,7 +82,6 @@ public class BinaryTree
         if (root != null)
         {
             PrintTreeRec(root.Left);
-            Console.WriteLine(root.Value + " ");
             PrintTreeRec(root.Right);
         }
     }

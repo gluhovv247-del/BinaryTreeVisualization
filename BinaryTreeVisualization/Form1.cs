@@ -8,6 +8,7 @@ namespace BinaryTreeVisualization
 
         private DrawingTree? drawingTree;
         private CanvasTree? canvasTree;
+        private EnumAct currentAct;
         BinaryTree myTree = new BinaryTree();
         public Form1()
         {
@@ -15,7 +16,7 @@ namespace BinaryTreeVisualization
             drawingTree = new DrawingTree();
             canvasTree = new CanvasTree(drawingTree);
             canvasTree.SetPictureSize(pictureBoxTree.Width, pictureBoxTree.Height);
-            drawingTree.SetPosition(pictureBoxTree.Width / 2, 30, 3);
+            drawingTree.SetPosition(pictureBoxTree.Width / 2, 30);
         }
         public void FillTree()
         {
@@ -26,10 +27,11 @@ namespace BinaryTreeVisualization
             {
                 myTree.Insert(rnd.Next(1, 30));
             }
-            
+
         }
         private void buttonInsert_Click(object sender, EventArgs e)
         {
+            currentAct = EnumAct.Insert;
             if (string.IsNullOrEmpty(maskedTextBoxInsert.Text))
             {
                 MessageBox.Show("Введите количество элементов");
@@ -43,7 +45,7 @@ namespace BinaryTreeVisualization
             }
             FillTree();
 
-            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root);
+            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
@@ -54,16 +56,26 @@ namespace BinaryTreeVisualization
                 return;
             }
             int number = Convert.ToInt32(maskedTextBoxDelete.Text);
-            if(myTree.SearchRec(myTree.root, number) == null)
+            if (myTree.SearchRec(myTree.root, number) == null)
             {
                 MessageBox.Show("Элемент не добавлен в дерево");
                 return;
             }
             myTree.Delete(number);
-            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root);
+            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
 
+        }
 
-
+        private void buttonPrint_Click(object sender, EventArgs e)
+        {
+            currentAct = EnumAct.Print;
+            if(myTree.root == null)
+            {
+                MessageBox.Show("Дерево не заполнено");
+                return;
+            }
+            
+            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
 
         }
     }

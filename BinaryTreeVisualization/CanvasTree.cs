@@ -13,17 +13,18 @@ public class CanvasTree
     {
         _drawingTree = new DrawingTree();
         _drawingTree = drawingTree;
+
     }
     public void SetPictureSize(int width, int height)
     {
         canvasWidth = width;
         canvasHeight = height;
     }
-    public Bitmap? DrawCanvas(Node root)
+    public Bitmap? DrawCanvas(Node root, EnumAct act)
     {
         Bitmap bmp = new(canvasWidth.Value, canvasHeight.Value);
         Graphics g = Graphics.FromImage(bmp);
-        _drawingTree?.DrawTree(g, root);
+        _drawingTree.DrawTree(g, root, act);
         return bmp;
     }
 
