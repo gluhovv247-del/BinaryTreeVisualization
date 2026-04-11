@@ -27,6 +27,7 @@ public class BinaryTree
     }
     private Node DeleteRec(Node root, int value)
     {
+  
         if (root == null)
             return root;
         if (value < root.Value)
@@ -50,6 +51,7 @@ public class BinaryTree
     }
     public Node SearchRec(Node root, int value)
     {
+        
         if(root == null || value == root.Value)
         {
             return root;

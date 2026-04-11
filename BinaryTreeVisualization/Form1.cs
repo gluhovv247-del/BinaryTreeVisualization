@@ -1,5 +1,8 @@
+using System.Configuration;
 using System.Drawing;
+using System.Numerics;
 using System.Security.Policy;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BinaryTreeVisualization
 {
@@ -10,6 +13,8 @@ namespace BinaryTreeVisualization
         private CanvasTree? canvasTree;
         private EnumAct currentAct;
         BinaryTree myTree = new BinaryTree();
+        
+        
         public Form1()
         {
             InitializeComponent();
@@ -26,10 +31,11 @@ namespace BinaryTreeVisualization
             for (int i = 0; i < count; i++)
             {
                 myTree.Insert(rnd.Next(1, 30));
+                
             }
 
         }
-        private void buttonInsert_Click(object sender, EventArgs e)
+        private async void buttonInsert_Click(object sender, EventArgs e)
         {
             currentAct = EnumAct.Insert;
             if (string.IsNullOrEmpty(maskedTextBoxInsert.Text))
@@ -44,11 +50,12 @@ namespace BinaryTreeVisualization
                 return;
             }
             FillTree();
-
             pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
-        }
 
-        private void buttonDelete_Click(object sender, EventArgs e)
+
+        }
+        
+        private async void buttonDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(maskedTextBoxDelete.Text))
             {
@@ -61,21 +68,53 @@ namespace BinaryTreeVisualization
                 MessageBox.Show("Ёлемент не добавлен в дерево");
                 return;
             }
+            Node root = myTree.root;
+            while (root != null)
+            {   
+                root.isActive = true; 
+                
+                pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
+                await Task.Delay(600);
+                if (number == root.Value) break; 
+                root.isActive = false;
+                if (number < root.Value)
+                    root = root.Left;
+                else
+                    root = root.Right; 
+            }
             myTree.Delete(number);
+            await Task.Delay(400);
             pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
-
         }
 
-        private void buttonPrint_Click(object sender, EventArgs e)
+        private async void buttonPrint_Click(object sender, EventArgs e)
         {
-            currentAct = EnumAct.Print;
-            if(myTree.root == null)
+            
+            if (myTree.root == null)
             {
                 MessageBox.Show("ƒерево не заполнено");
                 return;
             }
-            
+            Node root = myTree.root;
+            await print(root);
+            currentAct = EnumAct.Print;
             pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
+
+        }
+        private async Task print(Node root)
+        {
+            if(root == null)
+            {
+                return;
+            }
+            root.isActive = true;
+            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
+            await Task.Delay(500);
+            root.isActive = false;
+            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
+            await print(root.Left);
+            
+            await print(root.Right);
 
         }
     }

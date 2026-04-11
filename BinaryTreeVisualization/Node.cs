@@ -6,6 +6,7 @@ namespace BinaryTreeVisualization;
 
 public class Node
 {
+    public bool isActive { get; set; }
     public int Value;
     public Node Left;
     public Node Right;
