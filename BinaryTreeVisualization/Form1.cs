@@ -2,6 +2,7 @@ using System.Configuration;
 using System.Drawing;
 using System.Numerics;
 using System.Security.Policy;
+using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BinaryTreeVisualization
@@ -10,33 +11,30 @@ namespace BinaryTreeVisualization
     {
 
         private DrawingTree? drawingTree;
-        private CanvasTree? canvasTree;
+        AlgorithmSettings settings;
         private EnumAct currentAct;
-        BinaryTree myTree = new BinaryTree();
-        
-        
+        RunBinaryTree myTree;
         public Form1()
         {
             InitializeComponent();
+            myTree = new RunBinaryTree();
             drawingTree = new DrawingTree();
-            canvasTree = new CanvasTree(drawingTree);
-            canvasTree.SetPictureSize(pictureBoxTree.Width, pictureBoxTree.Height);
-            drawingTree.SetPosition(pictureBoxTree.Width / 2, 30);
+            drawingTree.SetPictureSize(pictureBoxTree.Width, pictureBoxTree.Height);
+            drawingTree.SetPosition(pictureBoxTree.Width / 2, 60);
         }
         public void FillTree()
         {
-            myTree.Clear();
             Random rnd = new Random();
             int count = Convert.ToInt32(maskedTextBoxInsert.Text);
+            settings = new AlgorithmSettings(count, "BinaryTree");
             for (int i = 0; i < count; i++)
             {
-                myTree.Insert(rnd.Next(1, 30));
-                
+                settings.Values.Add(rnd.Next(1, 30));
             }
-
         }
         private async void buttonInsert_Click(object sender, EventArgs e)
         {
+
             currentAct = EnumAct.Insert;
             if (string.IsNullOrEmpty(maskedTextBoxInsert.Text))
             {
@@ -50,11 +48,10 @@ namespace BinaryTreeVisualization
                 return;
             }
             FillTree();
-            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
-
+            myTree.CreateBinaryTree(settings);
+            pictureBoxTree.Image = drawingTree?.DrawCanvas(myTree.root, currentAct);
 
         }
-        
         private async void buttonDelete_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(maskedTextBoxDelete.Text))
@@ -63,33 +60,31 @@ namespace BinaryTreeVisualization
                 return;
             }
             int number = Convert.ToInt32(maskedTextBoxDelete.Text);
-            if (myTree.SearchRec(myTree.root, number) == null)
+            if (!settings.Values.Contains(number))
             {
-                MessageBox.Show("Элемент не добавлен в дерево");
+                MessageBox.Show("Такого элемента нет");
                 return;
             }
             Node root = myTree.root;
             while (root != null)
-            {   
-                root.isActive = true; 
-                
-                pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
+            {
+                root.isActive = true;
+                pictureBoxTree.Image = drawingTree.DrawCanvas(myTree.root, currentAct);
                 await Task.Delay(600);
-                if (number == root.Value) break; 
+                if (number == root.Value) break;
                 root.isActive = false;
                 if (number < root.Value)
                     root = root.Left;
                 else
-                    root = root.Right; 
+                    root = root.Right;
             }
             myTree.Delete(number);
             await Task.Delay(400);
-            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
+            pictureBoxTree.Image = drawingTree.DrawCanvas(myTree.root, currentAct);
         }
 
         private async void buttonPrint_Click(object sender, EventArgs e)
         {
-            
             if (myTree.root == null)
             {
                 MessageBox.Show("Дерево не заполнено");
@@ -98,23 +93,33 @@ namespace BinaryTreeVisualization
             Node root = myTree.root;
             await print(root);
             currentAct = EnumAct.Print;
-            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
-
+            pictureBoxTree.Image = drawingTree.DrawCanvas(myTree.root, currentAct);
         }
         private async Task print(Node root)
         {
-            if(root == null)
+            if (root == null)
             {
                 return;
             }
             root.isActive = true;
-            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
+            pictureBoxTree.Image = drawingTree.DrawCanvas(myTree.root, currentAct);
             await Task.Delay(500);
             root.isActive = false;
-            pictureBoxTree.Image = canvasTree.DrawCanvas(myTree.root, currentAct);
+            pictureBoxTree.Image = drawingTree.DrawCanvas(myTree.root, currentAct);
             await print(root.Left);
-            
             await print(root.Right);
+        }
+
+        private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                
+            }
+        }
+
+        private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
 
         }
     }

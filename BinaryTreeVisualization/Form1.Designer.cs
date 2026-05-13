@@ -35,8 +35,15 @@
             maskedTextBoxInsert = new MaskedTextBox();
             maskedTextBoxDelete = new MaskedTextBox();
             pictureBoxTree = new PictureBox();
+            openFileDialog = new OpenFileDialog();
+            saveFileDialog = new SaveFileDialog();
+            menuStrip1 = new MenuStrip();
+            FileToolStripMenuItem = new ToolStripMenuItem();
+            SaveToolStripMenuItem = new ToolStripMenuItem();
+            LoadToolStripMenuItem = new ToolStripMenuItem();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxTree).BeginInit();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // buttonInsert
@@ -105,19 +112,65 @@
             pictureBoxTree.TabIndex = 6;
             pictureBoxTree.TabStop = false;
             // 
+            // openFileDialog
+            // 
+            openFileDialog.FileName = "openFileDialog1";
+            openFileDialog.Filter = "txt file |*.txt";
+            // 
+            // saveFileDialog
+            // 
+            saveFileDialog.Filter = "txt file |*.txt";
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { FileToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(800, 28);
+            menuStrip1.TabIndex = 7;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // FileToolStripMenuItem
+            // 
+            FileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { SaveToolStripMenuItem, LoadToolStripMenuItem });
+            FileToolStripMenuItem.Name = "FileToolStripMenuItem";
+            FileToolStripMenuItem.Size = new Size(59, 24);
+            FileToolStripMenuItem.Text = "Файл";
+            // 
+            // SaveToolStripMenuItem
+            // 
+            SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
+            SaveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
+            SaveToolStripMenuItem.Size = new Size(216, 26);
+            SaveToolStripMenuItem.Text = "Сохранить";
+            SaveToolStripMenuItem.Click += SaveToolStripMenuItem_Click;
+            // 
+            // LoadToolStripMenuItem
+            // 
+            LoadToolStripMenuItem.Name = "LoadToolStripMenuItem";
+            LoadToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.L;
+            LoadToolStripMenuItem.Size = new Size(216, 26);
+            LoadToolStripMenuItem.Text = "Загрузить";
+            LoadToolStripMenuItem.Click += LoadToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(groupBox1);
+            Controls.Add(menuStrip1);
             Controls.Add(pictureBoxTree);
             Name = "Form1";
             Text = "Form1";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxTree).EndInit();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -130,5 +183,11 @@
         private MaskedTextBox maskedTextBoxDelete;
         private PictureBox pictureBoxTree;
         private MaskedTextBox maskedTextBoxInsert;
+        private OpenFileDialog openFileDialog;
+        private SaveFileDialog saveFileDialog;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem FileToolStripMenuItem;
+        private ToolStripMenuItem SaveToolStripMenuItem;
+        private ToolStripMenuItem LoadToolStripMenuItem;
     }
 }
