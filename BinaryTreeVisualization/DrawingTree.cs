@@ -82,18 +82,18 @@ public class DrawingTree
         sf.Alignment = StringAlignment.Center;
         sf.LineAlignment = StringAlignment.Center;
         g.DrawString(text, drawFont, drawBrush, rect, sf);
-        DrawInsert(g, root.Left, x - offset +10, y+50, offset/2+10);
-        DrawInsert(g, root.Right, x+offset, y+50, offset/2+10);
+        DrawInsert(g, root.Left, x - offset +10, y+50, offset/2+20);
+        DrawInsert(g, root.Right, x+offset, y+50, offset/2+20);
     }
     public void DrawTree(Graphics g, Node root, EnumAct act)
     {
         switch (act)
         {
             case EnumAct.Insert:
-                DrawInsert(g, root, _PosX.Value, _PosY.Value, 100);
+                DrawInsert(g, root, _PosX.Value, _PosY.Value, 120);
                 break;
             case EnumAct.Print:
-                DrawInsert(g, root, _PosX.Value, _PosY.Value, 100);
+                DrawInsert(g, root, _PosX.Value, _PosY.Value, 120);
                 DrawPrint(g, root, _PosX.Value, _PosY.Value);
                 count = 0;
                 currentCount = 0;

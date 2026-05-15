@@ -4,29 +4,67 @@ using System.Text;
 
 namespace BinaryTreeVisualization;
 
-public class RunBinaryTree : ICreateBinaryTree<AlgorithmSettings>
+public class RunBinaryTree : ICreateBinaryTree
 {
     public Node root;
-    public void CreateBinaryTree(AlgorithmSettings settings)
+    AlgorithmSettings _settings;
+    public RunBinaryTree(AlgorithmSettings settings)
+    {
+        _settings = settings;
+    }
+    public void CreateBinaryTree()
     {
         root = null;
-        foreach (var value in settings.Values)
+        foreach (var value in _settings.Values)
         {
             root = InsertTree(root, value);
         }
+        
     }
     public void Delete(int value)
     {
         root = DeleteElementFromTree(root, value);
     }
-    public void LoadFromFile()
+    public void LoadFromFile(string filename)
     {
-        throw new NotImplementedException();
+        if (!File.Exists(filename))
+        {
+            throw new FileNotFoundException();
+        }
+        using StreamReader sr = new(filename);
+        string name = sr.ReadLine();
+        string numbers = sr.ReadLine();
+
+        string[] partsOfNumbers = numbers.Split([':'],StringSplitOptions.RemoveEmptyEntries);
+        string sizeOfList = partsOfNumbers[0];
+        string elements = partsOfNumbers[1];
+        
+        int[] arrayNumbers = elements.Split(';', StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x.Trim())).ToArray();
+        _settings = new AlgorithmSettings(int.Parse(sizeOfList), name);
+        foreach(int i in arrayNumbers)
+        {
+            _settings.Values.Add(i);
+        }
+        {
+            
+        }
     }
 
-    public void SaveToFile()
+    public void SaveToFile(string filename)
     {
-        throw new NotImplementedException();
+        if (File.Exists(filename))
+        {
+            File.Delete(filename);
+        }
+        using StreamWriter sw = new(filename);
+        sw.Write("BinaryTree");
+        sw.Write(Environment.NewLine);
+        sw.Write(_settings._size.ToString() + ": ");
+        foreach(int value in _settings.Values)
+        {
+            sw.Write(value + ";");
+        }
+
     }
     public Node InsertTree(Node root, int value)
     {

@@ -4,9 +4,9 @@ using System.Text;
 
 namespace BinaryTreeVisualization;
 
-public interface ICreateBinaryTree<T>
+public interface ICreateBinaryTree 
 {
-    void CreateBinaryTree(T settings);
-    void SaveToFile();
-    void LoadFromFile();
+    void CreateBinaryTree();
+    void SaveToFile(string filename);
+    void LoadFromFile(string filename);
 }

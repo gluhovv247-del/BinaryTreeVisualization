@@ -17,20 +17,26 @@ namespace BinaryTreeVisualization
         public Form1()
         {
             InitializeComponent();
-            myTree = new RunBinaryTree();
             drawingTree = new DrawingTree();
             drawingTree.SetPictureSize(pictureBoxTree.Width, pictureBoxTree.Height);
             drawingTree.SetPosition(pictureBoxTree.Width / 2, 60);
+            settings = new AlgorithmSettings(0, "BinaryTree");
+            myTree = new RunBinaryTree(settings);
         }
         public void FillTree()
         {
             Random rnd = new Random();
-            int count = Convert.ToInt32(maskedTextBoxInsert.Text);
-            settings = new AlgorithmSettings(count, "BinaryTree");
-            for (int i = 0; i < count; i++)
+            int size = Convert.ToInt32(maskedTextBoxInsert.Text);
+            CreateTree(size);
+            for (int i = 0; i < size; i++)
             {
                 settings.Values.Add(rnd.Next(1, 30));
             }
+        }
+        public void CreateTree(int size)
+        {
+            settings = new AlgorithmSettings(size, "BinaryTree");
+            myTree = new RunBinaryTree(settings);
         }
         private async void buttonInsert_Click(object sender, EventArgs e)
         {
@@ -48,7 +54,7 @@ namespace BinaryTreeVisualization
                 return;
             }
             FillTree();
-            myTree.CreateBinaryTree(settings);
+            myTree.CreateBinaryTree();
             pictureBoxTree.Image = drawingTree?.DrawCanvas(myTree.root, currentAct);
 
         }
@@ -114,13 +120,26 @@ namespace BinaryTreeVisualization
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                
+                myTree.SaveToFile(saveFileDialog.FileName);
+                MessageBox.Show("Сохранение прошло успешно",
+                    "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         private void LoadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            currentAct = EnumAct.Insert;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if(settings.Values.Count != 0)
+                {
+                    settings.Values.Clear();
+                }
+                myTree.LoadFromFile(openFileDialog.FileName);
+                MessageBox.Show("Загрузка прошла успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                myTree.CreateBinaryTree();
+                pictureBoxTree.Image = drawingTree?.DrawCanvas(myTree.root, currentAct);
+            }
         }
     }
 }
