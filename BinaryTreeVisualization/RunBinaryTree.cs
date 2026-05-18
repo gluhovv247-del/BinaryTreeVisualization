@@ -33,6 +33,10 @@ public class RunBinaryTree : ICreateBinaryTree
         }
         using StreamReader sr = new(filename);
         string name = sr.ReadLine();
+        if (name != "BinaryTree")
+        {
+            throw new ArgumentException();
+        }
         string numbers = sr.ReadLine();
 
         string[] partsOfNumbers = numbers.Split([':'],StringSplitOptions.RemoveEmptyEntries);
@@ -55,6 +59,9 @@ public class RunBinaryTree : ICreateBinaryTree
         if (File.Exists(filename))
         {
             File.Delete(filename);
+        }
+        if(root == null){
+            throw new ArgumentNullException();
         }
         using StreamWriter sw = new(filename);
         sw.Write("BinaryTree");

@@ -1,6 +1,6 @@
 ﻿namespace BinaryTreeVisualization
 {
-    partial class Form1
+    partial class FormVisualization
     {
         /// <summary>
         ///  Required designer variable.
@@ -32,6 +32,7 @@
             buttonDelete = new Button();
             buttonPrint = new Button();
             groupBox1 = new GroupBox();
+            buttonInfo = new Button();
             maskedTextBoxInsert = new MaskedTextBox();
             maskedTextBoxDelete = new MaskedTextBox();
             pictureBoxTree = new PictureBox();
@@ -78,6 +79,7 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(buttonInfo);
             groupBox1.Controls.Add(maskedTextBoxInsert);
             groupBox1.Controls.Add(maskedTextBoxDelete);
             groupBox1.Controls.Add(buttonPrint);
@@ -89,6 +91,16 @@
             groupBox1.TabIndex = 5;
             groupBox1.TabStop = false;
             groupBox1.Text = "Инструменты";
+            // 
+            // buttonInfo
+            // 
+            buttonInfo.Location = new Point(51, 343);
+            buttonInfo.Name = "buttonInfo";
+            buttonInfo.Size = new Size(110, 29);
+            buttonInfo.TabIndex = 11;
+            buttonInfo.Text = "Информация";
+            buttonInfo.UseVisualStyleBackColor = true;
+            buttonInfo.Click += buttonInfo_Click;
             // 
             // maskedTextBoxInsert
             // 
@@ -154,7 +166,7 @@
             LoadToolStripMenuItem.Text = "Загрузить";
             LoadToolStripMenuItem.Click += LoadToolStripMenuItem_Click;
             // 
-            // Form1
+            // FormVisualization
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -162,7 +174,7 @@
             Controls.Add(groupBox1);
             Controls.Add(menuStrip1);
             Controls.Add(pictureBoxTree);
-            Name = "Form1";
+            Name = "FormVisualization";
             Text = "Form1";
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -189,5 +201,6 @@
         private ToolStripMenuItem FileToolStripMenuItem;
         private ToolStripMenuItem SaveToolStripMenuItem;
         private ToolStripMenuItem LoadToolStripMenuItem;
+        private Button buttonInfo;
     }
 }
