@@ -15,14 +15,16 @@ namespace BinaryTreeVisualization
         RunBinaryTree myTree;
         private Canvas _canvas;
         private ILogger<FormVisualization> _logger;
+        private StepAnimator _animator;
         public FormVisualization(ILogger<FormVisualization> logger)
         {
             InitializeComponent();
-            _canvas = new Canvas();
+             _canvas = new Canvas();
             _canvas.SetPictureSize(pictureBoxTree.Width, pictureBoxTree.Height);
             _canvas.SetTreePosition(pictureBoxTree.Width / 2, 60);
             settings = new AlgorithmSettings(0, "BinaryTree");
             myTree = new RunBinaryTree(settings);
+            _animator = new StepAnimator(() => RefreshImage(currentAct));
             _logger = logger;
         }
         public void RefreshImage(EnumAct act) => pictureBoxTree.Image = _canvas.DrawCanvas(myTree.root, currentAct);
@@ -53,43 +55,35 @@ namespace BinaryTreeVisualization
                 return;
             }
             int quantity = Convert.ToInt32(maskedTextBoxInsert.Text);
-            
+
             FillTree(quantity);
             myTree.CreateBinaryTree();
-            RefreshImage(currentAct);  
+            RefreshImage(currentAct);
         }
         private async void buttonDelete_Click(object sender, EventArgs e)
         {
-            
+
             if (string.IsNullOrEmpty(maskedTextBoxDelete.Text))
             {
                 MessageBox.Show("Введите количество элементов");
                 return;
             }
             int number = Convert.ToInt32(maskedTextBoxDelete.Text);
-            if (!settings.Values.Contains(number))
+            try
             {
-                MessageBox.Show("Такого элемента нет");
-                return;
-            }
-            Node root = myTree.root;
-            while (root != null)
-            {
-                root.isActive = true;
-                RefreshImage(currentAct);
+                Node root = myTree.root;
+                settings.Remove(number);
+                await _animator.Delete(root, number);
+                myTree.Delete(number);
                 await Task.Delay(600);
-                if (number == root.Value) break;
-                root.isActive = false;
-                if (number < root.Value)
-                    root = root.Left;
-                else
-                    root = root.Right;
+                RefreshImage(currentAct);
             }
-            settings.Values.Remove(number);
-            myTree.Delete(number);
-
-            await Task.Delay(400);
-            RefreshImage(currentAct);
+            catch(KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+                _logger.LogError("Удаление не произошло" +  ex.Message);
+            }
+            
         }
 
         private async void buttonPrint_Click(object sender, EventArgs e)
@@ -100,24 +94,10 @@ namespace BinaryTreeVisualization
                 return;
             }
             Node root = myTree.root;
-            await print(root);
+            await _animator.Print(root);
             currentAct = EnumAct.Print;
             RefreshImage(currentAct);
             _logger.LogInformation("Осуществлен вывод элементов дерева");
-        }
-        private async Task print(Node root)
-        {
-            if (root == null)
-            {
-                return;
-            }
-            root.isActive = true;
-            RefreshImage(currentAct);
-            await Task.Delay(500);
-            root.isActive = false;
-            RefreshImage(currentAct);
-            await print(root.Left);
-            await print(root.Right);
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -131,7 +111,7 @@ namespace BinaryTreeVisualization
                         "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     _logger.LogInformation("Дерево сохранено в файл: {filename}", saveFileDialog.FileName);
                 }
-                catch(ArgumentNullException ex)
+                catch (ArgumentNullException ex)
                 {
                     MessageBox.Show(ex.Message);
                     _logger.LogError("Ошибка при сохранении: " + ex.Message);
@@ -168,5 +148,6 @@ namespace BinaryTreeVisualization
             MessageBox.Show("Бинарное дерево поиска- это древовидная структура данных, в которой элементы, находящиеся в левом поддереве меньше элемента родителя," +
                 "а элементы правого поддерева наоборот больше. " + "В этой программе визуализируется удаление и вывод элементов дерева");
         }
+
     }
 }

@@ -7,6 +7,5 @@ namespace BinaryTreeVisualization;
 public enum EnumAct
 {
     Insert,
-    Delete,
     Print
 }

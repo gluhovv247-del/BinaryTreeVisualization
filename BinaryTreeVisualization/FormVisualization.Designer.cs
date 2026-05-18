@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             buttonInsert = new Button();
             buttonDelete = new Button();
             buttonPrint = new Button();
@@ -42,6 +43,7 @@
             FileToolStripMenuItem = new ToolStripMenuItem();
             SaveToolStripMenuItem = new ToolStripMenuItem();
             LoadToolStripMenuItem = new ToolStripMenuItem();
+            Timer = new System.Windows.Forms.Timer(components);
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxTree).BeginInit();
             menuStrip1.SuspendLayout();
@@ -166,6 +168,9 @@
             LoadToolStripMenuItem.Text = "Загрузить";
             LoadToolStripMenuItem.Click += LoadToolStripMenuItem_Click;
             // 
+            // Timer
+            // 
+            // 
             // FormVisualization
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -202,5 +207,6 @@
         private ToolStripMenuItem SaveToolStripMenuItem;
         private ToolStripMenuItem LoadToolStripMenuItem;
         private Button buttonInfo;
+        private System.Windows.Forms.Timer Timer;
     }
 }

@@ -34,5 +34,6 @@ public class AlgorithmSettings : AlgorithmInfo
         {
             throw new KeyNotFoundException();
         }
+        Values.Remove(value);
     }
 }

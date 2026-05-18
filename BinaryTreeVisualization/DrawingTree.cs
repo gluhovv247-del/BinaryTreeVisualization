@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO.Packaging;
+using System.Numerics;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -78,14 +79,16 @@ public class DrawingTree
         DrawPrint(g, root.Left, count, y);
         DrawPrint(g, root.Right, count, y);
     }
-    public void DrawDelete(Graphics g, Node root, int x, int y)
+    public void DrawDelete(int number, Node root)
     {
-        Brush brush = root.isActive ? Brushes.Green : Brushes.White;
-
-        if (root.Right == null)
+        while (root != null)
         {
-            Rectangle rect = new Rectangle(x - 15, y - 15, 30, 30);
-            g.FillRectangle(brush, rect);
+            if (number == root.Value) break;
+            root.isActive = false;
+            if (number < root.Value)
+                root = root.Left;
+            else
+                root = root.Right;
         }
     }
     public void DrawTree(Graphics g, Node root, EnumAct act, int offset)
@@ -95,10 +98,6 @@ public class DrawingTree
             case EnumAct.Insert:
                 DrawInsert(g, root, _PosX.Value, _PosY.Value, offset);
                 break;
-            //case EnumAct.Delete:
-            //    DrawInsert(g, root, _PosX.Value, _PosY.Value, offset);
-            //    DrawDelete(g, root, _PosX.Value, _PosY.Value);
-            //    break;
             case EnumAct.Print:
                 DrawInsert(g, root, _PosX.Value, _PosY.Value, offset);
                 DrawPrint(g, root, _PosX.Value, _PosY.Value);
